@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
     const tabela = `CREATE TABLE IF NOT EXISTS people (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255))`;
     connection.query(tabela);
 
-    // const insere = `INSERT INTO people(name) values ('Manoel')`;
-    // connection.query(insere);
+    const insere = `INSERT INTO people(name) values ('Manoel')`;
+    connection.query(insere);
 
     const lista = `SELECT name FROM people ORDER BY name ASC`;
     connection.query(lista, function(err, rows, fields) {
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
         res.send(conteudo);
     });
 
-    connection.end();
+    //connection.end();
 });
 
 app.listen(port, () => {

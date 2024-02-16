@@ -8,8 +8,6 @@ RUN npm install
 
 COPY . .
 
-RUN echo "Dockerfile do app"
-
 EXPOSE 3000
 
 CMD [ "node", "index.js" ]
