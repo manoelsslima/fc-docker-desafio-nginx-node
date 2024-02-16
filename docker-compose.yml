@@ -1,24 +1,5 @@
-version: '3'
+version: '3.9'
 services:
-  nginx:
-    image: nginx:1.21.6-alpine
-    container_name: nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-    networks:
-      - desafio-nginx-node-network
-
-  app:
-    build:
-      context: app
-    container_name: app
-    networks:
-      - desafio-nginx-node-network
-    volumes:
-      - ./app:/usr/src/app
-    ports:
-      - "3000:3000"
-
   db:
     image: mysql:5.7
     command: --innodb-use-native-aio=0
@@ -31,7 +12,33 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - desafio-nginx-node-network
-  
+
+  app:
+    build:
+      context: ./app
+      #dockerfile: ./app/Dockerfile
+    container_name: app
+    #volumes:
+    #  - ./app:/usr/src/app
+    ports:
+      - "3000:3000"
+    networks:
+      - desafio-nginx-node-network
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+      #dockerfile: ./nginx/Dockerfile
+    container_name: nginx
+    #volumes:
+      #- ./nginx/nginx.conf:/etc/nginx/conf.d
+    networks:
+      - desafio-nginx-node-network
+    depends_on:
+      - app
+
 networks:
   desafio-nginx-node-network:
     driver: bridge
