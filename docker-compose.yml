@@ -13,12 +13,10 @@ services:
     networks:
       - desafio-nginx-node-network
 
-  nodeserver:
+  app:
     build:
       context: ./app
     container_name: app
-    ports:
-      - "3000:3000"
     networks:
       - desafio-nginx-node-network
     depends_on:
@@ -33,7 +31,7 @@ services:
     networks:
       - desafio-nginx-node-network
     depends_on:
-      - nodeserver
+      - app
 
 networks:
   desafio-nginx-node-network:
