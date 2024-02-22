@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 services:
   db:
     image: mysql:5.7
@@ -17,6 +17,7 @@ services:
     build:
       context: ./app
     container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 10s node index.js
     networks:
       - desafio-nginx-node-network
     depends_on:
