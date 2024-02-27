@@ -12,16 +12,27 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - desafio-nginx-node-network
+    # substitui o dockerize
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
   app:
     build:
-      context: ./app
+      context: ./node
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 10s node index.js
+    entrypoint: sh -c "npm install && node index.js"
+    #entrypoint: sh -c "npm install && node index.js && dockerize -wait tcp://db:3306 -timeout 10s node index.js"
+    tty: true
     networks:
       - desafio-nginx-node-network
+    volumes:
+      - ./node:/usr/src/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   nginx:
     build:
