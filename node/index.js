@@ -5,15 +5,15 @@ const config = {
     host: 'db',
     user: 'root',
     password: 'root',
-    database: 'desafio-nginx-node-db'
+    database: 'desafio_nginx_node_mysql'
 };
 const mysql = require('mysql');
 const connection = mysql.createConnection(config);
 
 app.get('/', (req, res) => {
 
-    const tabela = `CREATE TABLE IF NOT EXISTS people (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255))`;
-    connection.query(tabela);
+    // const tabela = `CREATE TABLE IF NOT EXISTS people (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255))`;
+    // connection.query(tabela);
 
     const insere = `INSERT INTO people(name) values ('Manoel Lima')`;
     connection.query(insere);
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     connection.query(lista, function(err, rows, fields) {
         if (err) throw err;
 
-        let conteudo = `<h1>Desafio Nginx e Node - Full Cycle</h1>`;
+        let conteudo = `<h1>Full Cycle - Desafio: Docker, Node.js, MySQL e Nginx</h1>`;
         conteudo += `<ul>`
             rows.forEach(objeto => {
                 conteudo += `<li>${objeto.name}</li>`;
